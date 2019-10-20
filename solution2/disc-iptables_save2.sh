@@ -16,18 +16,15 @@ else
 		then
 			# Check modification
 			UNIXTIMENOW=$(date +%s)
-			echo "Time now is ${UNIXTIMENOW}"
 			
 			#Format UNIXTIMENOW to find execution hour
 			SCRPTEXEHR=$(date -d @"${UNIXTIMENOW}" | awk '{print $4}' | awk -F":" '{print $1}')
-			echo "Hour this script is executing is: ${SCRPTEXEHR}"; echo
 			
 			CFGLSTMODTIME=$(stat -c %y ${IPTABLESCFG} | awk -F"." '{print $1}')
 			CFGLSTMODTIMESTMP=$(date --date="${CFGLSTMODTIME}" +"%s")
-			echo "Conf file timestamp is: ${CFGLSTMODTIMESTMP}"
+			
 			FILEAGE=$(( (${UNIXTIMENOW} - ${CFGLSTMODTIMESTMP}) ))
 			
-			echo "File age is: ${FILEAGE} seconds"
 			
 			if [ ${FILEAGE} -gt 60 ] && ([ ${SCRPTEXEHR} = "07" ] || [ ${SCRPTEXEHR} = "17" ])
 				then
